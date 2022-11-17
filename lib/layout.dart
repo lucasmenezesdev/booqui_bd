@@ -1,9 +1,8 @@
 import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_datastore/amplify_datastore.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:booqui_app/amplifyconfiguration.dart';
-import 'package:booqui_app/pages/autores_page.dart';
-import 'package:booqui_app/pages/obras_page.dart';
+import 'package:booqui_bd/pages/autores_page.dart';
+import 'package:booqui_bd/pages/obras_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';

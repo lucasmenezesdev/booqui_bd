@@ -1,17 +1,12 @@
 import 'dart:io';
-
 import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_datastore/amplify_datastore.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:booqui_app/amplifyconfiguration.dart';
-import 'package:booqui_app/controllers/controller_autores_page.dart';
-import 'package:booqui_app/controllers/controller_bindings.dart';
-import 'package:booqui_app/layout.dart';
-import 'package:booqui_app/pages/autores_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-
+import 'amplifyconfiguration.dart';
+import 'layout.dart';
 import 'models/ModelProvider.dart';
 
 Future<void> main() async {

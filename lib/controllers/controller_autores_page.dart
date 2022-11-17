@@ -1,8 +1,7 @@
 import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_datastore/amplify_datastore.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:booqui_app/amplifyconfiguration.dart';
-import 'package:booqui_app/models/Autor.dart';
+
 import 'package:get/get.dart';
 
 import '../models/ModelProvider.dart';
@@ -28,7 +27,7 @@ class ControllerAutoresPage extends GetxController {
   //Adicionar novo autor
   Future<void> addAutor(String nome, String sobrenome) async {
     try {
-      Autor _newAutor = Autor(nome: nome, sobrenome: sobrenome);
+      Autor _newAutor = Autor(nome: nome, sobre: sobrenome);
       await Amplify.DataStore.save(_newAutor);
       readData();
     } on Exception catch (e) {
@@ -42,7 +41,7 @@ class ControllerAutoresPage extends GetxController {
       Autor _oldAutor = (await Amplify.DataStore.query(Autor.classType,
           where: Autor.ID.eq(id)))[0];
       Autor _newAutor =
-          _oldAutor.copyWith(id: id, nome: nome, sobrenome: sobrenome);
+          _oldAutor.copyWith(id: id, nome: nome, sobre: sobrenome);
       await Amplify.DataStore.save(_newAutor);
       readData();
     } on Exception catch (e) {

@@ -1,7 +1,8 @@
-import 'package:booqui_app/controllers/controller_autores_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+
+import '../controllers/controller_autores_page.dart';
 
 class AutoresPage extends StatefulWidget {
   const AutoresPage({super.key});
@@ -47,7 +48,7 @@ class _AutoresPageState extends State<AutoresPage> {
                 child: _.autoresList.isNotEmpty
                     ? ListTile(
                         title: Text(_.autoresList[index].nome),
-                        subtitle: Text(_.autoresList[index].sobrenome),
+                        subtitle: Text(_.autoresList[index].sobre),
                       )
                     : Text('Sem autores'),
               ),
