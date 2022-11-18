@@ -30,7 +30,7 @@ export 'ObraAutor.dart';
 
 class ModelProvider implements ModelProviderInterface {
   @override
-  String version = "c348fcc3c39968206ab890a91c2023bb";
+  String version = "497aa6bc3eb4c1986c0179d6332cc26c";
   @override
   List<ModelSchema> modelSchemas = [Autor.schema, Obra.schema, ObraAutor.schema];
   static final ModelProvider _instance = ModelProvider();

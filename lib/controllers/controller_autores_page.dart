@@ -27,7 +27,7 @@ class ControllerAutoresPage extends GetxController {
   //Adicionar novo autor
   Future<void> addAutor(String nome, String sobrenome) async {
     try {
-      Autor _newAutor = Autor(nome: nome, sobre: sobrenome);
+      Autor _newAutor = Autor(nome: nome, sobrenome: sobrenome);
       await Amplify.DataStore.save(_newAutor);
       readData();
     } on Exception catch (e) {
@@ -40,8 +40,7 @@ class ControllerAutoresPage extends GetxController {
     try {
       Autor _oldAutor = (await Amplify.DataStore.query(Autor.classType,
           where: Autor.ID.eq(id)))[0];
-      Autor _newAutor =
-          _oldAutor.copyWith(id: id, nome: nome, sobre: sobrenome);
+      Autor _newAutor = _oldAutor.copyWith(nome: nome, sobrenome: sobrenome);
       await Amplify.DataStore.save(_newAutor);
       readData();
     } on Exception catch (e) {

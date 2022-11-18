@@ -1,4 +1,17 @@
 {
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-booqui-staging-01459-authRole",
+      "UnauthRoleArn": "arn:aws:iam::061615432768:role/amplify-booqui-staging-01459-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::061615432768:role/amplify-booqui-staging-01459-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-booqui-staging-01459-deployment",
+      "UnauthRoleName": "amplify-booqui-staging-01459-unauthRole",
+      "StackName": "amplify-booqui-staging-01459",
+      "StackId": "arn:aws:cloudformation:us-east-1:061615432768:stack/amplify-booqui-staging-01459/0a6b44b0-66d6-11ed-a2a6-0a6437d13993",
+      "AmplifyAppId": "d1skxcf9hefz5j"
+    }
+  },
   "dev": {
     "awscloudformation": {
       "AuthRoleName": "amplify-booquibd-dev-183234-authRole",

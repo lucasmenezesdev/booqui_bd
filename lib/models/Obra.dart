@@ -31,7 +31,7 @@ class Obra extends Model {
   static const classType = const _ObraModelType();
   final String id;
   final String? _titulo;
-  final String? _descrica;
+  final String? _descricao;
   final String? _linguagem;
   final int? _curtidas;
   final int? _downloads;
@@ -43,9 +43,14 @@ class Obra extends Model {
   @override
   getInstanceType() => classType;
   
+  @Deprecated('[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')
   @override
-  String getId() {
-    return id;
+  String getId() => id;
+  
+  ObraModelIdentifier get modelIdentifier {
+      return ObraModelIdentifier(
+        id: id
+      );
   }
   
   String get titulo {
@@ -61,9 +66,9 @@ class Obra extends Model {
     }
   }
   
-  String get descrica {
+  String get descricao {
     try {
-      return _descrica!;
+      return _descricao!;
     } catch(e) {
       throw new AmplifyCodeGenModelException(
           AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
@@ -138,13 +143,13 @@ class Obra extends Model {
     return _updatedAt;
   }
   
-  const Obra._internal({required this.id, required titulo, required descrica, required linguagem, required curtidas, required downloads, required numComentarios, autores, createdAt, updatedAt}): _titulo = titulo, _descrica = descrica, _linguagem = linguagem, _curtidas = curtidas, _downloads = downloads, _numComentarios = numComentarios, _autores = autores, _createdAt = createdAt, _updatedAt = updatedAt;
+  const Obra._internal({required this.id, required titulo, required descricao, required linguagem, required curtidas, required downloads, required numComentarios, autores, createdAt, updatedAt}): _titulo = titulo, _descricao = descricao, _linguagem = linguagem, _curtidas = curtidas, _downloads = downloads, _numComentarios = numComentarios, _autores = autores, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory Obra({String? id, required String titulo, required String descrica, required String linguagem, required int curtidas, required int downloads, required int numComentarios, List<ObraAutor>? autores}) {
+  factory Obra({String? id, required String titulo, required String descricao, required String linguagem, required int curtidas, required int downloads, required int numComentarios, List<ObraAutor>? autores}) {
     return Obra._internal(
       id: id == null ? UUID.getUUID() : id,
       titulo: titulo,
-      descrica: descrica,
+      descricao: descricao,
       linguagem: linguagem,
       curtidas: curtidas,
       downloads: downloads,
@@ -162,7 +167,7 @@ class Obra extends Model {
     return other is Obra &&
       id == other.id &&
       _titulo == other._titulo &&
-      _descrica == other._descrica &&
+      _descricao == other._descricao &&
       _linguagem == other._linguagem &&
       _curtidas == other._curtidas &&
       _downloads == other._downloads &&
@@ -180,7 +185,7 @@ class Obra extends Model {
     buffer.write("Obra {");
     buffer.write("id=" + "$id" + ", ");
     buffer.write("titulo=" + "$_titulo" + ", ");
-    buffer.write("descrica=" + "$_descrica" + ", ");
+    buffer.write("descricao=" + "$_descricao" + ", ");
     buffer.write("linguagem=" + "$_linguagem" + ", ");
     buffer.write("curtidas=" + (_curtidas != null ? _curtidas!.toString() : "null") + ", ");
     buffer.write("downloads=" + (_downloads != null ? _downloads!.toString() : "null") + ", ");
@@ -192,11 +197,11 @@ class Obra extends Model {
     return buffer.toString();
   }
   
-  Obra copyWith({String? id, String? titulo, String? descrica, String? linguagem, int? curtidas, int? downloads, int? numComentarios, List<ObraAutor>? autores}) {
+  Obra copyWith({String? titulo, String? descricao, String? linguagem, int? curtidas, int? downloads, int? numComentarios, List<ObraAutor>? autores}) {
     return Obra._internal(
-      id: id ?? this.id,
+      id: id,
       titulo: titulo ?? this.titulo,
-      descrica: descrica ?? this.descrica,
+      descricao: descricao ?? this.descricao,
       linguagem: linguagem ?? this.linguagem,
       curtidas: curtidas ?? this.curtidas,
       downloads: downloads ?? this.downloads,
@@ -207,7 +212,7 @@ class Obra extends Model {
   Obra.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _titulo = json['titulo'],
-      _descrica = json['descrica'],
+      _descricao = json['descricao'],
       _linguagem = json['linguagem'],
       _curtidas = (json['curtidas'] as num?)?.toInt(),
       _downloads = (json['downloads'] as num?)?.toInt(),
@@ -222,16 +227,17 @@ class Obra extends Model {
       _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'titulo': _titulo, 'descrica': _descrica, 'linguagem': _linguagem, 'curtidas': _curtidas, 'downloads': _downloads, 'numComentarios': _numComentarios, 'autores': _autores?.map((ObraAutor? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'titulo': _titulo, 'descricao': _descricao, 'linguagem': _linguagem, 'curtidas': _curtidas, 'downloads': _downloads, 'numComentarios': _numComentarios, 'autores': _autores?.map((ObraAutor? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'titulo': _titulo, 'descrica': _descrica, 'linguagem': _linguagem, 'curtidas': _curtidas, 'downloads': _downloads, 'numComentarios': _numComentarios, 'autores': _autores, 'createdAt': _createdAt, 'updatedAt': _updatedAt
+    'id': id, 'titulo': _titulo, 'descricao': _descricao, 'linguagem': _linguagem, 'curtidas': _curtidas, 'downloads': _downloads, 'numComentarios': _numComentarios, 'autores': _autores, 'createdAt': _createdAt, 'updatedAt': _updatedAt
   };
 
+  static final QueryModelIdentifier<ObraModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<ObraModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: "id");
   static final QueryField TITULO = QueryField(fieldName: "titulo");
-  static final QueryField DESCRICA = QueryField(fieldName: "descrica");
+  static final QueryField DESCRICAO = QueryField(fieldName: "descricao");
   static final QueryField LINGUAGEM = QueryField(fieldName: "linguagem");
   static final QueryField CURTIDAS = QueryField(fieldName: "curtidas");
   static final QueryField DOWNLOADS = QueryField(fieldName: "downloads");
@@ -263,7 +269,7 @@ class Obra extends Model {
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: Obra.DESCRICA,
+      key: Obra.DESCRICAO,
       isRequired: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.string)
     ));
@@ -322,4 +328,48 @@ class _ObraModelType extends ModelType<Obra> {
   Obra fromJson(Map<String, dynamic> jsonData) {
     return Obra.fromJson(jsonData);
   }
+}
+
+/**
+ * This is an auto generated class representing the model identifier
+ * of [Obra] in your schema.
+ */
+@immutable
+class ObraModelIdentifier implements ModelIdentifier<Obra> {
+  final String id;
+
+  /** Create an instance of ObraModelIdentifier using [id] the primary key. */
+  const ObraModelIdentifier({
+    required this.id});
+  
+  @override
+  Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
+    'id': id
+  });
+  
+  @override
+  List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
+    .entries
+    .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
+    .toList();
+  
+  @override
+  String serializeAsString() => serializeAsMap().values.join('#');
+  
+  @override
+  String toString() => 'ObraModelIdentifier(id: $id)';
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    
+    return other is ObraModelIdentifier &&
+      id == other.id;
+  }
+  
+  @override
+  int get hashCode =>
+    id.hashCode;
 }

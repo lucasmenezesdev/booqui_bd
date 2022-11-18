@@ -1,6 +1,6 @@
 {
   "api": {
-    "booquibd": {
+    "Booqui": {
       "service": "AppSync",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],

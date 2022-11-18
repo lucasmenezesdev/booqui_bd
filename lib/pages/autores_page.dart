@@ -1,3 +1,5 @@
+import 'package:booqui_bd/pages/autores_update.dart';
+import 'package:booqui_bd/pages/obras_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -46,9 +48,23 @@ class _AutoresPageState extends State<AutoresPage> {
                 ),
                 key: UniqueKey(), //ValueKey<String>(_.autoresList[index].id),
                 child: _.autoresList.isNotEmpty
-                    ? ListTile(
-                        title: Text(_.autoresList[index].nome),
-                        subtitle: Text(_.autoresList[index].sobre),
+                    ? Card(
+                        child: ListTile(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AutoresUpdate(
+                                        idAutor: _.autoresList[index].id,
+                                        nome: _.autoresList[index].nome,
+                                        sobrenome:
+                                            _.autoresList[index].sobrenome,
+                                      )),
+                            );
+                          },
+                          title: Text(_.autoresList[index].nome),
+                          subtitle: Text(_.autoresList[index].sobrenome),
+                        ),
                       )
                     : Text('Sem autores'),
               ),
@@ -56,6 +72,7 @@ class _AutoresPageState extends State<AutoresPage> {
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerDocked,
             floatingActionButton: FloatingActionButton(
+              child: Icon(Icons.add),
               onPressed: () => showModalBottomSheet(
                   context: context,
                   builder: (context) => Padding(

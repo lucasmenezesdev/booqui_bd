@@ -29,22 +29,27 @@ import 'package:flutter/foundation.dart';
 class ObraAutor extends Model {
   static const classType = const _ObraAutorModelType();
   final String id;
-  final Autor? _autor;
   final Obra? _obra;
+  final Autor? _autor;
   final TemporalDateTime? _createdAt;
   final TemporalDateTime? _updatedAt;
 
   @override
   getInstanceType() => classType;
   
+  @Deprecated('[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')
   @override
-  String getId() {
-    return id;
+  String getId() => id;
+  
+  ObraAutorModelIdentifier get modelIdentifier {
+      return ObraAutorModelIdentifier(
+        id: id
+      );
   }
   
-  Autor get autor {
+  Obra get obra {
     try {
-      return _autor!;
+      return _obra!;
     } catch(e) {
       throw new AmplifyCodeGenModelException(
           AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
@@ -55,9 +60,9 @@ class ObraAutor extends Model {
     }
   }
   
-  Obra get obra {
+  Autor get autor {
     try {
-      return _obra!;
+      return _autor!;
     } catch(e) {
       throw new AmplifyCodeGenModelException(
           AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
@@ -76,13 +81,13 @@ class ObraAutor extends Model {
     return _updatedAt;
   }
   
-  const ObraAutor._internal({required this.id, required autor, required obra, createdAt, updatedAt}): _autor = autor, _obra = obra, _createdAt = createdAt, _updatedAt = updatedAt;
+  const ObraAutor._internal({required this.id, required obra, required autor, createdAt, updatedAt}): _obra = obra, _autor = autor, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory ObraAutor({String? id, required Autor autor, required Obra obra}) {
+  factory ObraAutor({String? id, required Obra obra, required Autor autor}) {
     return ObraAutor._internal(
       id: id == null ? UUID.getUUID() : id,
-      autor: autor,
-      obra: obra);
+      obra: obra,
+      autor: autor);
   }
   
   bool equals(Object other) {
@@ -94,8 +99,8 @@ class ObraAutor extends Model {
     if (identical(other, this)) return true;
     return other is ObraAutor &&
       id == other.id &&
-      _autor == other._autor &&
-      _obra == other._obra;
+      _obra == other._obra &&
+      _autor == other._autor;
   }
   
   @override
@@ -107,8 +112,8 @@ class ObraAutor extends Model {
     
     buffer.write("ObraAutor {");
     buffer.write("id=" + "$id" + ", ");
-    buffer.write("autor=" + (_autor != null ? _autor!.toString() : "null") + ", ");
     buffer.write("obra=" + (_obra != null ? _obra!.toString() : "null") + ", ");
+    buffer.write("autor=" + (_autor != null ? _autor!.toString() : "null") + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
@@ -116,62 +121,63 @@ class ObraAutor extends Model {
     return buffer.toString();
   }
   
-  ObraAutor copyWith({String? id, Autor? autor, Obra? obra}) {
+  ObraAutor copyWith({Obra? obra, Autor? autor}) {
     return ObraAutor._internal(
-      id: id ?? this.id,
-      autor: autor ?? this.autor,
-      obra: obra ?? this.obra);
+      id: id,
+      obra: obra ?? this.obra,
+      autor: autor ?? this.autor);
   }
   
   ObraAutor.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
-      _autor = json['autor']?['serializedData'] != null
-        ? Autor.fromJson(new Map<String, dynamic>.from(json['autor']['serializedData']))
-        : null,
       _obra = json['obra']?['serializedData'] != null
         ? Obra.fromJson(new Map<String, dynamic>.from(json['obra']['serializedData']))
+        : null,
+      _autor = json['autor']?['serializedData'] != null
+        ? Autor.fromJson(new Map<String, dynamic>.from(json['autor']['serializedData']))
         : null,
       _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'autor': _autor?.toJson(), 'obra': _obra?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'obra': _obra?.toJson(), 'autor': _autor?.toJson(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'autor': _autor, 'obra': _obra, 'createdAt': _createdAt, 'updatedAt': _updatedAt
+    'id': id, 'obra': _obra, 'autor': _autor, 'createdAt': _createdAt, 'updatedAt': _updatedAt
   };
 
+  static final QueryModelIdentifier<ObraAutorModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<ObraAutorModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: "id");
-  static final QueryField AUTOR = QueryField(
-    fieldName: "autor",
-    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Autor).toString()));
   static final QueryField OBRA = QueryField(
     fieldName: "obra",
     fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Obra).toString()));
+  static final QueryField AUTOR = QueryField(
+    fieldName: "autor",
+    fieldType: ModelFieldType(ModelFieldTypeEnum.model, ofModelName: (Autor).toString()));
   static var schema = Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "ObraAutor";
     modelSchemaDefinition.pluralName = "ObraAutors";
     
     modelSchemaDefinition.indexes = [
-      ModelIndex(fields: const ["autorID"], name: "byAutor"),
-      ModelIndex(fields: const ["obraID"], name: "byObra")
+      ModelIndex(fields: const ["obraId"], name: "byObra"),
+      ModelIndex(fields: const ["autorId"], name: "byAutor")
     ];
     
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
     
     modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
-      key: ObraAutor.AUTOR,
+      key: ObraAutor.OBRA,
       isRequired: true,
-      targetName: "autorID",
-      ofModelName: (Autor).toString()
+      targetNames: ["obraId"],
+      ofModelName: (Obra).toString()
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
-      key: ObraAutor.OBRA,
+      key: ObraAutor.AUTOR,
       isRequired: true,
-      targetName: "obraID",
-      ofModelName: (Obra).toString()
+      targetNames: ["autorId"],
+      ofModelName: (Autor).toString()
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
@@ -197,4 +203,48 @@ class _ObraAutorModelType extends ModelType<ObraAutor> {
   ObraAutor fromJson(Map<String, dynamic> jsonData) {
     return ObraAutor.fromJson(jsonData);
   }
+}
+
+/**
+ * This is an auto generated class representing the model identifier
+ * of [ObraAutor] in your schema.
+ */
+@immutable
+class ObraAutorModelIdentifier implements ModelIdentifier<ObraAutor> {
+  final String id;
+
+  /** Create an instance of ObraAutorModelIdentifier using [id] the primary key. */
+  const ObraAutorModelIdentifier({
+    required this.id});
+  
+  @override
+  Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
+    'id': id
+  });
+  
+  @override
+  List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
+    .entries
+    .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
+    .toList();
+  
+  @override
+  String serializeAsString() => serializeAsMap().values.join('#');
+  
+  @override
+  String toString() => 'ObraAutorModelIdentifier(id: $id)';
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    
+    return other is ObraAutorModelIdentifier &&
+      id == other.id;
+  }
+  
+  @override
+  int get hashCode =>
+    id.hashCode;
 }

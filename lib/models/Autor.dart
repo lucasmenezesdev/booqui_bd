@@ -31,8 +31,8 @@ class Autor extends Model {
   static const classType = const _AutorModelType();
   final String id;
   final String? _nome;
-  final String? _sobre;
-  final TemporalDateTime? _dataNascimento;
+  final String? _sobrenome;
+  final TemporalDate? _dataNascimento;
   final String? _urlImagem;
   final List<ObraAutor>? _obras;
   final TemporalDateTime? _createdAt;
@@ -41,9 +41,14 @@ class Autor extends Model {
   @override
   getInstanceType() => classType;
   
+  @Deprecated('[getId] is being deprecated in favor of custom primary key feature. Use getter [modelIdentifier] to get model identifier.')
   @override
-  String getId() {
-    return id;
+  String getId() => id;
+  
+  AutorModelIdentifier get modelIdentifier {
+      return AutorModelIdentifier(
+        id: id
+      );
   }
   
   String get nome {
@@ -59,9 +64,9 @@ class Autor extends Model {
     }
   }
   
-  String get sobre {
+  String get sobrenome {
     try {
-      return _sobre!;
+      return _sobrenome!;
     } catch(e) {
       throw new AmplifyCodeGenModelException(
           AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
@@ -72,7 +77,7 @@ class Autor extends Model {
     }
   }
   
-  TemporalDateTime? get dataNascimento {
+  TemporalDate? get dataNascimento {
     return _dataNascimento;
   }
   
@@ -92,13 +97,13 @@ class Autor extends Model {
     return _updatedAt;
   }
   
-  const Autor._internal({required this.id, required nome, required sobre, dataNascimento, urlImagem, obras, createdAt, updatedAt}): _nome = nome, _sobre = sobre, _dataNascimento = dataNascimento, _urlImagem = urlImagem, _obras = obras, _createdAt = createdAt, _updatedAt = updatedAt;
+  const Autor._internal({required this.id, required nome, required sobrenome, dataNascimento, urlImagem, obras, createdAt, updatedAt}): _nome = nome, _sobrenome = sobrenome, _dataNascimento = dataNascimento, _urlImagem = urlImagem, _obras = obras, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory Autor({String? id, required String nome, required String sobre, TemporalDateTime? dataNascimento, String? urlImagem, List<ObraAutor>? obras}) {
+  factory Autor({String? id, required String nome, required String sobrenome, TemporalDate? dataNascimento, String? urlImagem, List<ObraAutor>? obras}) {
     return Autor._internal(
       id: id == null ? UUID.getUUID() : id,
       nome: nome,
-      sobre: sobre,
+      sobrenome: sobrenome,
       dataNascimento: dataNascimento,
       urlImagem: urlImagem,
       obras: obras != null ? List<ObraAutor>.unmodifiable(obras) : obras);
@@ -114,7 +119,7 @@ class Autor extends Model {
     return other is Autor &&
       id == other.id &&
       _nome == other._nome &&
-      _sobre == other._sobre &&
+      _sobrenome == other._sobrenome &&
       _dataNascimento == other._dataNascimento &&
       _urlImagem == other._urlImagem &&
       DeepCollectionEquality().equals(_obras, other._obras);
@@ -130,7 +135,7 @@ class Autor extends Model {
     buffer.write("Autor {");
     buffer.write("id=" + "$id" + ", ");
     buffer.write("nome=" + "$_nome" + ", ");
-    buffer.write("sobre=" + "$_sobre" + ", ");
+    buffer.write("sobrenome=" + "$_sobrenome" + ", ");
     buffer.write("dataNascimento=" + (_dataNascimento != null ? _dataNascimento!.format() : "null") + ", ");
     buffer.write("urlImagem=" + "$_urlImagem" + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
@@ -140,11 +145,11 @@ class Autor extends Model {
     return buffer.toString();
   }
   
-  Autor copyWith({String? id, String? nome, String? sobre, TemporalDateTime? dataNascimento, String? urlImagem, List<ObraAutor>? obras}) {
+  Autor copyWith({String? nome, String? sobrenome, TemporalDate? dataNascimento, String? urlImagem, List<ObraAutor>? obras}) {
     return Autor._internal(
-      id: id ?? this.id,
+      id: id,
       nome: nome ?? this.nome,
-      sobre: sobre ?? this.sobre,
+      sobrenome: sobrenome ?? this.sobrenome,
       dataNascimento: dataNascimento ?? this.dataNascimento,
       urlImagem: urlImagem ?? this.urlImagem,
       obras: obras ?? this.obras);
@@ -153,8 +158,8 @@ class Autor extends Model {
   Autor.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
       _nome = json['nome'],
-      _sobre = json['sobre'],
-      _dataNascimento = json['dataNascimento'] != null ? TemporalDateTime.fromString(json['dataNascimento']) : null,
+      _sobrenome = json['sobrenome'],
+      _dataNascimento = json['dataNascimento'] != null ? TemporalDate.fromString(json['dataNascimento']) : null,
       _urlImagem = json['urlImagem'],
       _obras = json['obras'] is List
         ? (json['obras'] as List)
@@ -166,16 +171,17 @@ class Autor extends Model {
       _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'nome': _nome, 'sobre': _sobre, 'dataNascimento': _dataNascimento?.format(), 'urlImagem': _urlImagem, 'obras': _obras?.map((ObraAutor? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'nome': _nome, 'sobrenome': _sobrenome, 'dataNascimento': _dataNascimento?.format(), 'urlImagem': _urlImagem, 'obras': _obras?.map((ObraAutor? e) => e?.toJson()).toList(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
-    'id': id, 'nome': _nome, 'sobre': _sobre, 'dataNascimento': _dataNascimento, 'urlImagem': _urlImagem, 'obras': _obras, 'createdAt': _createdAt, 'updatedAt': _updatedAt
+    'id': id, 'nome': _nome, 'sobrenome': _sobrenome, 'dataNascimento': _dataNascimento, 'urlImagem': _urlImagem, 'obras': _obras, 'createdAt': _createdAt, 'updatedAt': _updatedAt
   };
 
+  static final QueryModelIdentifier<AutorModelIdentifier> MODEL_IDENTIFIER = QueryModelIdentifier<AutorModelIdentifier>();
   static final QueryField ID = QueryField(fieldName: "id");
   static final QueryField NOME = QueryField(fieldName: "nome");
-  static final QueryField SOBRE = QueryField(fieldName: "sobre");
+  static final QueryField SOBRENOME = QueryField(fieldName: "sobrenome");
   static final QueryField DATANASCIMENTO = QueryField(fieldName: "dataNascimento");
   static final QueryField URLIMAGEM = QueryField(fieldName: "urlImagem");
   static final QueryField OBRAS = QueryField(
@@ -205,7 +211,7 @@ class Autor extends Model {
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-      key: Autor.SOBRE,
+      key: Autor.SOBRENOME,
       isRequired: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.string)
     ));
@@ -213,7 +219,7 @@ class Autor extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
       key: Autor.DATANASCIMENTO,
       isRequired: false,
-      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+      ofType: ModelFieldType(ModelFieldTypeEnum.date)
     ));
     
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
@@ -252,4 +258,48 @@ class _AutorModelType extends ModelType<Autor> {
   Autor fromJson(Map<String, dynamic> jsonData) {
     return Autor.fromJson(jsonData);
   }
+}
+
+/**
+ * This is an auto generated class representing the model identifier
+ * of [Autor] in your schema.
+ */
+@immutable
+class AutorModelIdentifier implements ModelIdentifier<Autor> {
+  final String id;
+
+  /** Create an instance of AutorModelIdentifier using [id] the primary key. */
+  const AutorModelIdentifier({
+    required this.id});
+  
+  @override
+  Map<String, dynamic> serializeAsMap() => (<String, dynamic>{
+    'id': id
+  });
+  
+  @override
+  List<Map<String, dynamic>> serializeAsList() => serializeAsMap()
+    .entries
+    .map((entry) => (<String, dynamic>{ entry.key: entry.value }))
+    .toList();
+  
+  @override
+  String serializeAsString() => serializeAsMap().values.join('#');
+  
+  @override
+  String toString() => 'AutorModelIdentifier(id: $id)';
+  
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    
+    return other is AutorModelIdentifier &&
+      id == other.id;
+  }
+  
+  @override
+  int get hashCode =>
+    id.hashCode;
 }
