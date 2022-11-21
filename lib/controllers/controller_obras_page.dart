@@ -1,4 +1,5 @@
 import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:booqui_bd/models/ModelProvider.dart';
 import 'package:get/get.dart';
 
 import '../models/Autor.dart';
@@ -6,6 +7,7 @@ import '../models/Obra.dart';
 
 class ControllerObrasPage extends GetxController {
   var obrasList = <Obra>[].obs;
+  // var autoresList = <Autor>[].obs;
   String currentUser = '';
 
   @override
@@ -17,6 +19,7 @@ class ControllerObrasPage extends GetxController {
   Future<void> readData() async {
     try {
       obrasList = RxList(await Amplify.DataStore.query(Obra.classType));
+      // autoresList = RxList(await Amplify.DataStore.query(Autor.classType));
     } catch (e) {
       print(e);
     }
@@ -35,6 +38,10 @@ class ControllerObrasPage extends GetxController {
       );
       await Amplify.DataStore.save(_newObra);
       readData();
+
+      // String idObra = obrasList[obrasList.length - 1].id;
+
+      // ObraAutor _newObraAutor = ObraAutor(obra: idObra, autor: idAutor);
     } on Exception catch (e) {
       print(e);
     }

@@ -47,7 +47,7 @@ class _LayoutState extends State<Layout> {
         items: [
           BottomNavigationBarItem(
               icon: Icon(Icons.contacts_rounded), label: 'Autores'),
-          BottomNavigationBarItem(icon: Icon(Icons.book), label: 'Livros'),
+          BottomNavigationBarItem(icon: Icon(Icons.book), label: 'Obras'),
         ],
         onTap: (pagina) {
           pc.animateToPage(pagina,

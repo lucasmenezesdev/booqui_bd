@@ -1,3 +1,4 @@
+import 'package:booqui_bd/pages/obras_update.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -17,7 +18,7 @@ class _ObrasPageState extends State<ObrasPage> {
   final TextEditingController _descricaoController = TextEditingController();
   final TextEditingController _linguagemController = TextEditingController();
 
-  ControllerAutoresPage controller = ControllerAutoresPage();
+  ControllerObrasPage controller = ControllerObrasPage();
   @override
   void initState() {
     // TODO: implement initState
@@ -47,8 +48,21 @@ class _ObrasPageState extends State<ObrasPage> {
                 ),
                 key: UniqueKey(), //ValueKey<String>(_.autoresList[index].id),
                 child: _.obrasList.isNotEmpty
-                    ? ListTile(
-                        title: Text(_.obrasList[index].titulo),
+                    ? Card(
+                        child: ListTile(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ObrasUpdate(
+                                      idObra: _.obrasList[index].id,
+                                      titulo: _.obrasList[index].titulo,
+                                      descricao: _.obrasList[index].descricao,
+                                      linguagem: _.obrasList[index].linguagem)),
+                            );
+                          },
+                          title: Text(_.obrasList[index].titulo),
+                        ),
                       )
                     : Text('Sem obras'),
               ),
@@ -63,15 +77,27 @@ class _ObrasPageState extends State<ObrasPage> {
                         padding: const EdgeInsets.all(8),
                         child: Column(
                           children: [
-                            TextField(controller: _tituloController),
-                            TextField(controller: _descricaoController),
-                            TextField(controller: _linguagemController),
+                            TextField(
+                              controller: _tituloController,
+                              decoration: InputDecoration(labelText: 'Título'),
+                            ),
+                            TextField(
+                              controller: _descricaoController,
+                              decoration:
+                                  InputDecoration(labelText: 'Descrição'),
+                            ),
+                            TextField(
+                              controller: _linguagemController,
+                              decoration:
+                                  InputDecoration(labelText: 'Linguagem'),
+                            ),
                             ElevatedButton(
                                 onPressed: () => {
                                       _.addObra(
-                                          _tituloController.text.trim(),
-                                          _descricaoController.text.trim(),
-                                          _linguagemController.text.trim()),
+                                        _tituloController.text.trim(),
+                                        _descricaoController.text.trim(),
+                                        _linguagemController.text.trim(),
+                                      ),
                                       _tituloController.clear(),
                                       _descricaoController.clear(),
                                       _linguagemController.clear(),

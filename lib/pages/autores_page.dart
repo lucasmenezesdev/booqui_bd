@@ -62,8 +62,9 @@ class _AutoresPageState extends State<AutoresPage> {
                                       )),
                             );
                           },
-                          title: Text(_.autoresList[index].nome),
-                          subtitle: Text(_.autoresList[index].sobrenome),
+                          title: Text(
+                              "${_.autoresList[index].nome} ${_.autoresList[index].sobrenome}"),
+                          subtitle: Text("${_.autoresList[index].obras}"),
                         ),
                       )
                     : Text('Sem autores'),
@@ -79,8 +80,15 @@ class _AutoresPageState extends State<AutoresPage> {
                         padding: const EdgeInsets.all(8),
                         child: Column(
                           children: [
-                            TextField(controller: _nomeController),
-                            TextField(controller: _sobrenomeController),
+                            TextField(
+                              controller: _nomeController,
+                              decoration: InputDecoration(labelText: 'Nome'),
+                            ),
+                            TextField(
+                              controller: _sobrenomeController,
+                              decoration:
+                                  InputDecoration(labelText: 'Sobrenome'),
+                            ),
                             ElevatedButton(
                                 onPressed: () => {
                                       _.addAutor(
